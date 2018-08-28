@@ -1,6 +1,7 @@
 {
-  "name": "ibantools",
-  "description": "mirror of ibantools for bower, bundled and exposed as ES module",
+  "name": "@bundled-es-modules/ibantools",
+  "version": "2.0.0",
+  "description": "mirror of ibantools, bundled and exposed as ES module",
   "author": "Mikhail Bashkirov <bashmish@gmail.com>",
   "main": "index.js",
   "devDependencies": {
