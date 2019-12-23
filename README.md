@@ -4,7 +4,7 @@ This is a mirror of [ibantools](https://www.npmjs.com/package/ibantools), bundle
 
 ## Install
 
-```
+```sh
 npm install @bundled-es-modules/ibantools
 bower install bundled-es-modules/ibantools
 ```

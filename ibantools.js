@@ -17,12 +17,14 @@
  */
 function isValidIBAN(iban) {
     if (iban !== undefined && iban !== null) {
+        var reg = new RegExp("^[0-9]{2}$", "");
         var spec = countrySpecs[iban.slice(0, 2)];
         if (spec !== undefined &&
             spec.IBANRegistry &&
             spec.chars === iban.length &&
+            reg.test(iban.slice(2, 4)) &&
             checkFormatBBAN(iban.slice(4), spec.bban_regexp) &&
-            mod9710(iban) === 1) {
+            isValidIBANChecksum(iban)) {
             return true;
         }
     }
@@ -110,6 +112,7 @@ function checkFormatBBAN(bban, bformat) {
 /**
  * Get IBAN in electronic format (no spaces)
  * IBAN validation is not performed.
+ * When non-string value for IBAN is provided, returns null.
  * @example
  * // returns "NL91ABNA0417164300"
  * ibantools.electronicFormatIBAN("NL91 ABNA 0417 1643 00");
@@ -118,7 +121,7 @@ function checkFormatBBAN(bban, bformat) {
  * @return {string} IBAN Electronic formated IBAN
  */
 function electronicFormatIBAN(iban) {
-    if (iban === undefined || iban === null) {
+    if (typeof iban !== "string") {
         return null;
     }
     return iban.replace(/[-\ ]/g, "").toUpperCase();
@@ -126,6 +129,7 @@ function electronicFormatIBAN(iban) {
 /**
  * Get IBAN in friendly format (separated after every 4 characters)
  * IBAN validation is not performed.
+ * When non-string value for IBAN is provided, returns null.
  * @example
  * // returns "NL91 ABNA 0417 1643 00"
  * ibantools.friendlyFormatIBAN("NL91ABNA0417164300");
@@ -138,10 +142,38 @@ function electronicFormatIBAN(iban) {
  * @return {string} IBAN Friendly formated IBAN
  */
 function friendlyFormatIBAN(iban, separator) {
+    if (typeof iban !== "string") {
+        return null;
+    }
     if (typeof separator === "undefined") {
         separator = " ";
     }
     return electronicFormatIBAN(iban).replace(/(.{4})(?!$)/g, "$1" + separator);
+}
+/**
+ * Calculate checksum of IBAN and compares it with checksum provided in IBANregistry
+ * @param {string} IBAN
+ * @return {boolean}
+ */
+function isValidIBANChecksum(iban) {
+    var providedChecksum = parseInt(iban.slice(2, 4), 10);
+    var temp = iban.slice(3) + iban.slice(0, 2) + '00';
+    var validationString = "";
+    for (var n = 1; n < temp.length; n++) {
+        var c = temp.charCodeAt(n);
+        if (c >= 65) {
+            validationString += (c - 55).toString();
+        }
+        else {
+            validationString += temp[n];
+        }
+    }
+    while (validationString.length > 2) {
+        var part = validationString.slice(0, 6);
+        validationString = (parseInt(part, 10) % 97).toString() + validationString.slice(part.length);
+    }
+    var rest = parseInt(validationString, 10) % 97;
+    return (98 - rest) === providedChecksum;
 }
 /**
  * MOD-97-10
@@ -224,8 +256,9 @@ function isValidBIC(bic) {
  * @param {string} BIC BIC
  * @return {ExtractBICResult} Object {bancCode: string, countryCode: string, countryName: string, locationCode: string, branchCode: string, testBIC: boolean, valid: boolean}
  */
-function extractBIC(bic) {
+function extractBIC(inputBic) {
     var result = {};
+    var bic = inputBic.toUpperCase();
     if (isValidBIC(bic)) {
         result.bankCode = bic.slice(0, 4);
         result.countryCode = bic.slice(4, 6);
@@ -478,7 +511,7 @@ var countrySpecs = {
     US: { chars: null, bban_regexp: null, IBANRegistry: false, name: "United States of America" },
     UY: { chars: null, bban_regexp: null, IBANRegistry: false, name: "Uruguay" },
     UZ: { chars: null, bban_regexp: null, IBANRegistry: false, name: "Uzbekistan" },
-    VA: { chars: null, bban_regexp: null, IBANRegistry: false, name: "Holy See" },
+    VA: { chars: 22, bban_regexp: "^[0-9]{18}", IBANRegistry: true, name: "Vatican City State" },
     VC: { chars: null, bban_regexp: null, IBANRegistry: false, name: "Saint Vincent and the Granadines" },
     VE: { chars: null, bban_regexp: null, IBANRegistry: false, name: "Venezuela, Bolivian Republic of" },
     VG: { chars: 24, bban_regexp: "^[A-Z0-9]{4}[0-9]{16}$", name: "Virgin Islands, British", IBANRegistry: true },
