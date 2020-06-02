@@ -1,5 +1,7 @@
 # ibantools
 
+> This package is deprecated. Now that ibantools publishes ES Modules themselves, this mirror is obsolete. That's a good thing! Go use [ibantools](https://www.npmjs.com/package/ibantools) directly!
+
 This is a mirror of [ibantools](https://www.npmjs.com/package/ibantools), bundled and exposed as ES module.
 
 ## Install

@@ -1,7 +1,7 @@
 {
   "name": "@bundled-es-modules/ibantools",
   "version": "2.2.0",
-  "description": "mirror of ibantools, bundled and exposed as ES module",
+  "description": "Deprecated: mirror of ibantools, bundled and exposed as ES module",
   "author": "Mikhail Bashkirov <bashmish@gmail.com>",
   "main": "index.js",
   "devDependencies": {
