@@ -1,1 +1,11 @@
-export { isValidIBAN, isValidBBAN, composeIBAN, extractIBAN, electronicFormatIBAN, friendlyFormatIBAN, getCountrySpecifications, isValidBIC, extractBIC } from './ibantools.js';
+export {
+  composeIBAN,
+  electronicFormatIBAN,
+  extractBIC,
+  extractIBAN,
+  friendlyFormatIBAN,
+  getCountrySpecifications,
+  isValidBBAN,
+  isValidBIC,
+  isValidIBAN,
+} from "./ibantools.js";

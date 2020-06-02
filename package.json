@@ -1,11 +1,11 @@
 {
   "name": "@bundled-es-modules/ibantools",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "description": "mirror of ibantools, bundled and exposed as ES module",
   "author": "Mikhail Bashkirov <bashmish@gmail.com>",
   "main": "index.js",
   "devDependencies": {
-    "ibantools": "2.0.0",
+    "ibantools": "2.2.0",
     "rollup": "^0.64.1",
     "rollup-plugin-commonjs": "^9.1.5"
   },
