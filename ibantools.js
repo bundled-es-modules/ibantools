@@ -528,4 +528,4 @@ var countrySpecs = {
     ZW: { chars: null, bban_regexp: null, IBANRegistry: false, name: "Zimbabwe" },
 };
 
-export { isValidIBAN, isValidBBAN, composeIBAN, extractIBAN, electronicFormatIBAN, friendlyFormatIBAN, getCountrySpecifications, isValidBIC, extractBIC };
+export { composeIBAN, electronicFormatIBAN, extractBIC, extractIBAN, friendlyFormatIBAN, getCountrySpecifications, isValidBBAN, isValidBIC, isValidIBAN };
